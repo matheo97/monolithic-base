@@ -17,7 +17,7 @@ export const dataSourceOptions: DataSourceOptions = {
   logging: true,
   entities: [__dirname + '/dist/src/entities/*.entity{.ts,.js}'],
   synchronize: false,
-  migrations: ['database/migrations/*.ts'],
+  migrations: [__dirname + '/dist/database/migrations/*{.ts,.js}'],
   migrationsTableName: 'typeorm_migrations',
   migrationsRun: false,
 };
