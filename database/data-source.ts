@@ -4,10 +4,6 @@ import * as dotenv from 'dotenv';
 // Load environment variables from .env file
 dotenv.config();
 
-console.log('process.env.DB_HOST', process.env.DB_HOST);
-console.log('process.env.DB_PASSWORD', process.env.DB_PASSWORD);
-console.log('process.env.DB_DATABASE', process.env.DB_DATABASE);
-
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
   host: process.env.DB_HOST,
