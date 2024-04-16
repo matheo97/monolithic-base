@@ -1,8 +1,11 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
 
-// Load environment variables from .env file
 dotenv.config();
+
+const sourcePath = __dirname.split('/');
+sourcePath.pop();
+const entitiesSource = sourcePath.join('/');
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -15,9 +18,9 @@ export const dataSourceOptions: DataSourceOptions = {
       ? process.env.DB_TEST_DATABASE
       : process.env.DB_DATABASE,
   logging: true,
-  entities: [__dirname + '/dist/src/entities/*.entity{.ts,.js}'],
+  entities: [entitiesSource + '/src/entities/*.entity.ts'],
   synchronize: false,
-  migrations: [__dirname + '/dist/database/migrations/*{.ts,.js}'],
+  migrations: [__dirname + '/migrations/*.ts'],
   migrationsTableName: 'typeorm_migrations',
   migrationsRun: false,
 };
