@@ -7,8 +7,8 @@ import * as dotenv from 'dotenv';
 import { dataSourceOptions } from '../database/data-source';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
+import { AppsModule } from './apps/apps.module';
 
-// Load environment variables from .env file
 dotenv.config();
 
 @Module({
@@ -19,6 +19,7 @@ dotenv.config();
     }),
     AuthModule,
     UsersModule,
+    AppsModule,
   ],
   controllers: [],
   providers: [
