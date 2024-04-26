@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Brackets, DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Password } from '../entities';
+import { PageResponse } from '../types/pageResponse';
 
 @Injectable()
 export class PasswordsDAO {
@@ -28,11 +29,24 @@ export class PasswordsDAO {
     return this.repository.delete({ id, userId });
   }
 
-  async getAll(userId: string): Promise<Password[]> {
-    return this.repository
+  async getAll(
+    userId: string,
+    page: number,
+    pageSize: number,
+  ): Promise<PageResponse<Password>> {
+    const query = this.repository
       .createQueryBuilder('password')
-      .where('userId = :userId', { userId })
-      .getMany();
+      .where('userId = :userId', { userId });
+
+    const [results, total] = await query
+      .skip(pageSize && page ? pageSize * (page - 1) : 0)
+      .take(pageSize || 0)
+      .getManyAndCount();
+
+    return {
+      total,
+      results,
+    };
   }
 
   async getById(userId: string, passwordId: string): Promise<Password> {

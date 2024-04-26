@@ -7,12 +7,14 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  Query,
   Req,
 } from '@nestjs/common';
 import { PasswordsService } from './passwords.service';
 import { Password } from '../entities';
 import { DeleteResult } from 'typeorm';
 import Request from '../types/request';
+import { PageResponse } from '../types/pageResponse';
 @Controller('v1/passwords')
 export class PasswordsController {
   constructor(private readonly service: PasswordsService) {}
@@ -42,8 +44,12 @@ export class PasswordsController {
   }
 
   @Get()
-  async getAll(@Req() { user }: Request): Promise<Password[]> {
-    return this.service.getAll(user.id);
+  async getAll(
+    @Req() { user }: Request,
+    @Query('page') page: number,
+    @Query('pageSize') pageSize: number,
+  ): Promise<PageResponse<Password>> {
+    return this.service.getAll(user.id, page, pageSize);
   }
 
   @Get(':id')

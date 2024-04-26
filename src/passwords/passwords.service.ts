@@ -3,6 +3,7 @@ import { PasswordsDAO } from './passwords.dao';
 import { Password } from '../entities';
 import { DeleteResult } from 'typeorm';
 import { AppsService } from '../apps/apps.service';
+import { PageResponse } from '../types/pageResponse';
 
 @Injectable()
 export class PasswordsService {
@@ -39,8 +40,12 @@ export class PasswordsService {
     return this.dao.delete(userId, id);
   }
 
-  async getAll(userId: string): Promise<Password[]> {
-    return this.dao.getAll(userId);
+  async getAll(
+    userId: string,
+    page: number,
+    pageSize: number,
+  ): Promise<PageResponse<Password>> {
+    return this.dao.getAll(userId, page, pageSize);
   }
 
   async getById(userId: string, appId: string): Promise<Password> {
