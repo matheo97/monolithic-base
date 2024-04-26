@@ -9,6 +9,7 @@ import { Request } from 'express';
 import { IS_PUBLIC_KEY } from './public.decorator';
 import { Reflector } from '@nestjs/core';
 import * as dotenv from 'dotenv';
+import { UsersService } from '../users/users.service';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -18,6 +19,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
+    private readonly userService: UsersService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -38,7 +40,8 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: process.env.SECRET_OR_KEY,
       });
-      request['user'] = payload;
+      const user = await this.userService.getUserByEmail(payload.username);
+      request['user'] = { ...user, password: undefined };
     } catch {
       throw new UnauthorizedException();
     }

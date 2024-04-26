@@ -18,7 +18,7 @@ export const dataSourceOptions: DataSourceOptions = {
       ? process.env.DB_TEST_DATABASE
       : process.env.DB_DATABASE,
   logging: true,
-  entities: [entitiesSource + '/src/entities/*.entity.ts'],
+  entities: [entitiesSource + '/src/entities/*.entity.js'],
   synchronize: false,
   migrations: [__dirname + '/migrations/*.ts'],
   migrationsTableName: 'typeorm_migrations',
