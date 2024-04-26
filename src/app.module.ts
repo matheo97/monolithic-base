@@ -8,6 +8,7 @@ import { dataSourceOptions } from '../database/data-source';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
 import { AppsModule } from './apps/apps.module';
+import { PasswordsModule } from './passwords/passwords.module';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ dotenv.config();
     AuthModule,
     UsersModule,
     AppsModule,
+    PasswordsModule,
   ],
   controllers: [],
   providers: [
